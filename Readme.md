@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Александра Цидулко](https://up.htmlacademy.ru/javascript/27/user/2018629).
-* Наставник: `Неизвестно`.
+* Наставник: [Никита Сигов](https://htmlacademy.ru/profile/crazer).
 
 ---
 
