@@ -68,35 +68,8 @@ const MIN_LNG = 139.70000;
 
 const SIMILAR_ADS_COUNT = 10;
 
-const avatarNumbers = getUniqueIntegersArray(1, 10);
-
-// Проверка аргументов функций
-
-function checkRangeValues (value1, value2) {
-  if (value1 < 0 || value2 < 0 || typeof value1 !== 'number' || typeof value2 !== 'number') {
-    return true;
-  }
-}
-
-// Функция, возвращающая случайное целое число из переданного диапазона включительно
-
-function getRandomInteger (min, max) {
-  return checkRangeValues(min, max) ? NaN : Math.floor(Math.random() * (Math.abs(Math.floor(max) - Math.ceil(min)) + 1) + Math.ceil(Math.min(min, max)));
-}
-
-getRandomInteger(1,2);
-
-// Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно
-
-function getRoundedRandomValue (min, max, decimal) {
-  return checkRangeValues(min, max) ? NaN : Math.round((Math.random() * Math.abs(max - min) + Math.min(min, max)) * Math.pow(10, decimal)) / Math.pow(10, decimal);
-}
-
-getRoundedRandomValue(0, 1, 5);
-
 // Функция из задания для получения случайного целого
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
-
 function getRandomPositiveInteger (a, b) {
   if (a < 0 || b < 0) {
     return NaN;
@@ -107,11 +80,8 @@ function getRandomPositiveInteger (a, b) {
   return Math.floor(result);
 }
 
-getRandomPositiveInteger();
-
 // Функция из задания для получения случайного числа с плавающей точкой
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
-
 function getRandomPositiveFloat (a, b, digits = 1) {
   if (a < 0 || b < 0 || digits < 0) {
     return NaN;
@@ -122,72 +92,41 @@ function getRandomPositiveFloat (a, b, digits = 1) {
   return +result.toFixed(digits);
 }
 
-getRandomPositiveFloat();
-
-// Функция для создания массива неповторяющихся случайных целых чисел в заданном диапазоне
-
-function getUniqueIntegersArray (min, max) {
-  const uniqueIntegersArray = [];
-  const arrayLength = Math.abs(max - min) + 1;
-  for (let i = 0; i < arrayLength; i++) {
-    const randomValue = getRandomPositiveInteger(min, max);
-    if (uniqueIntegersArray.includes(randomValue)) {
-      i -= 1;
-    } else {
-      uniqueIntegersArray.push(randomValue);
-    }
-  }
-  return uniqueIntegersArray;
-}
-
-getUniqueIntegersArray();
-
 // Функция, возвращающая рандомный элемент из массива
-
 function getRandomArrayElement (elements) {
   return elements[getRandomPositiveInteger(0, elements.length - 1)];
 }
 
 // Функция для перевода чисел вида 1 2 3 в вид 01 02 03;
-
 function getTwoDigitsNumber (n) {
-  return (n < 10) ? `0${n.toString()}` : n.toString();
+  return (n < 10) ? `0${n}` : n;
 }
 
-getTwoDigitsNumber(5);
-
 // Функция для получения массива случайной длины из значений, заданных в другом массиве. Значения могут повторяться.
-
-function getRandomLengthArray (...data) {
-  const dataArray = data;
-  const newArrayLength = getRandomPositiveInteger(1, 10);
+// Добавлена возможность выбирать максимальную длину нового массива
+function getRandomLengthArray (data, maxLength) {
+  const newArrayLength = getRandomPositiveInteger(1, maxLength);
   const newArray = [];
 
   for (let i = 0; i < newArrayLength; i++) {
-    const newElementIndex = getRandomPositiveInteger(0, (dataArray.length - 1));
-    const newElement = dataArray[newElementIndex];
+    const newElementIndex = getRandomPositiveInteger(0, (data.length - 1));
+    const newElement = data[newElementIndex];
     newArray.push(newElement);
   }
 
   return newArray;
 }
 
-getRandomLengthArray();
-
 // Функция для получения массива случайной длины из неповторяющихся значений другого массива
 
-function getRandomLengthUniqueArray (...data) {
-  const dataArray = data;
+function getRandomLengthUniqueArray (data) {
   const newArrayLength = getRandomPositiveInteger(1, data.length);
   const newUniqueArray = [];
 
   for (let i = 0; i < newArrayLength; i++) {
-    const newElementIndex = getRandomPositiveInteger(0, (dataArray.length - 1));
-    const newElement = dataArray[newElementIndex];
-
-    if (newUniqueArray.includes(newElement)) {
-      i -= 1;
-    } else {
+    const newElementIndex = getRandomPositiveInteger(0, (data.length - 1));
+    const newElement = data[newElementIndex];
+    while (!newUniqueArray.includes(newElement)) {
       newUniqueArray.push(newElement);
     }
   }
@@ -195,26 +134,19 @@ function getRandomLengthUniqueArray (...data) {
   return newUniqueArray;
 }
 
-getRandomLengthUniqueArray();
-
-
 // Функция создания нового объекта в Кексобукинге. Состоит из создания аватара и создания самого объявления
 
-// Функция создания аватара. Съедает по одному элементу созданного массива номеров при вызове, поэтому после генерации 10 объектов больше не вызывается
-function createAvatar () {
-  const avatarIndex = getRandomPositiveInteger(0, (avatarNumbers.length - 1));
-  const avatarNumber = avatarNumbers[avatarIndex];
-  avatarNumbers.splice(avatarIndex, 1);
-  const addressNumber = getTwoDigitsNumber(avatarNumber);
+function createAvatar (index) {
+  const addressNumber = getTwoDigitsNumber(index + 1);
   return `img/avatars/user${addressNumber}.png`;
 }
 
-function createAd () {
+function createAd (elements, index) {
   const locationLat = getRandomPositiveFloat(MIN_LAT, MAX_LAT, 5);
   const locationLng = getRandomPositiveFloat(MIN_LNG, MAX_LNG, 5);
   return {
     author : {
-      avatar: createAvatar(),
+      avatar: createAvatar(index),
     },
     offer: {
       title: getRandomArrayElement(OBJECT_TITLES),
@@ -225,9 +157,9 @@ function createAd () {
       guests: getRandomPositiveInteger(1, 10),
       checkin: getRandomArrayElement(CHECKIN_TIME),
       checkout: getRandomArrayElement(CHECKOUT_TIME),
-      features: getRandomLengthUniqueArray(...OBJECT_FEATURES),
+      features: getRandomLengthUniqueArray(OBJECT_FEATURES),
       description: getRandomArrayElement(OBJECT_DESCRIPTION),
-      photos: getRandomLengthArray(...OBJECT_PHOTOS),
+      photos: getRandomLengthArray(OBJECT_PHOTOS, 10),
     },
     location: {
       lat: locationLat,
