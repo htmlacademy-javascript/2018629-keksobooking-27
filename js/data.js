@@ -67,7 +67,7 @@ const MIN_LAT = 35.65000;
 const MAX_LNG = 139.80000;
 const MIN_LNG = 139.70000;
 
-const SIMILAR_ADS_COUNT = 10;
+// const SIMILAR_ADS_COUNT = 10;
 
 // Функция создания нового объекта в Кексобукинге. Состоит из создания аватара и создания самого объявления
 
@@ -103,6 +103,6 @@ function createAd (elements, index) {
   };
 }
 
-const createAds = () => Array.from({length: SIMILAR_ADS_COUNT}, createAd);
+const createAds = (number) => Array.from({length: number}, createAd);
 
 export {createAds};

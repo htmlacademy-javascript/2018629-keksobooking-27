@@ -1,5 +1,3 @@
-import {createAds} from './data.js';
+import './popup.js';
 
-// eslint-disable-next-line
-console.log(createAds());
 
