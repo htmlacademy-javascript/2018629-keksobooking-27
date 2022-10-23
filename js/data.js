@@ -71,12 +71,12 @@ const MIN_LNG = 139.70000;
 
 // Функция создания нового объекта в Кексобукинге. Состоит из создания аватара и создания самого объявления
 
-function createAvatar (index) {
+const createAvatar = (index) => {
   const addressNumber = getTwoDigitsNumber(index + 1);
   return `img/avatars/user${addressNumber}.png`;
-}
+};
 
-function createAd (elements, index) {
+const createAd = (elements, index) => {
   const locationLat = getRandomPositiveFloat(MIN_LAT, MAX_LAT, 5);
   const locationLng = getRandomPositiveFloat(MIN_LNG, MAX_LNG, 5);
   return {
@@ -101,7 +101,7 @@ function createAd (elements, index) {
       lng: locationLng,
     },
   };
-}
+};
 
 const createAds = (number) => Array.from({length: number}, createAd);
 
