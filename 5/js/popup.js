@@ -1,10 +1,5 @@
-import { createAds } from './data.js';
-
 const map = document.querySelector('#map-canvas');
-
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
-
-const similarAds = createAds(1);
 
 const popupTypes = {
   flat: 'Квартира',
@@ -14,25 +9,33 @@ const popupTypes = {
   hotel: 'Отель',
 };
 
-similarAds.forEach((popup) => {
-  const newPopup = popupTemplate.cloneNode(true);
-  newPopup.querySelector('.popup__avatar').src = popup.author.avatar;
-  newPopup.querySelector('.popup__title').textContent = popup.offer.title;
-  newPopup.querySelector('.popup__text--address').textContent = popup.offer.address;
-  newPopup.querySelector('.popup__text--price').querySelector('[data-price]').textContent = popup.offer.price;
-  newPopup.querySelector('.popup__type').textContent = popupTypes[popup.offer.type];
-  newPopup.querySelector('.popup__text--capacity').textContent = `${popup.offer.rooms} комнаты для ${popup.offer.guests} гостей`;
-  newPopup.querySelector('.popup__text--time').textContent = `Заезд после ${popup.offer.checkin}, выезд до ${popup.offer.checkout}`;
-
-  const description = newPopup.querySelector('.popup__description');
-  if (popup.offer.description) {
-    description.textContent = popup.offer.description;
-  } else {
-    description.remove();
+const renderPhotos = (popupElement, photos) => {
+  const photoBlock = popupElement.querySelector('.popup__photos');
+  const photoTemplate = popupElement.querySelector('.popup__photo').cloneNode(true);
+  photoBlock.innerHTML = '';
+  if (photos) {
+    const photosList = photos;
+    photosList.forEach((photo) => {
+      const newPhoto = photoTemplate.cloneNode(true);
+      newPhoto.src = photo;
+      photoBlock.append(newPhoto);
+    });} else {
+    photoBlock.remove();
   }
+};
 
-  const popupFeatures = popup.offer.features;
-  const featuresList = newPopup.querySelector('.popup__features').querySelectorAll('.popup__feature');
+const renderDescription = (popupElement, description) => {
+  const newDescription = popupElement.querySelector('.popup__description');
+  if (description) {
+    newDescription.textContent = description;
+  } else {
+    newDescription.remove();
+  }
+};
+
+const renderFeatures = (popupElement, features) => {
+  const popupFeatures = features;
+  const featuresList = popupElement.querySelector('.popup__features').querySelectorAll('.popup__feature');
   const modifiers = popupFeatures.map((feature) => `popup__feature--${feature}`);
 
   featuresList.forEach((featuresListItem) => {
@@ -42,20 +45,26 @@ similarAds.forEach((popup) => {
     }
   });
 
-  const photoBlock = newPopup.querySelector('.popup__photos');
-  const photoTemplate = photoBlock.querySelector('.popup__photo').cloneNode(true);
-  photoBlock.innerHTML = '';
-  if (popup.offer.photos) {
-    const photos = popup.offer.photos;
-    photos.forEach((photo) => {
-      const newPhoto = photoTemplate.cloneNode(true);
-      newPhoto.src = photo;
-      photoBlock.append(newPhoto);
-    });} else {
-    photoBlock.remove();
-  }
+};
 
-  map.append(newPopup);
-});
+const createPopups = (addsData) => {
+  addsData.forEach(({author, offer}) => {
+    const newPopup = popupTemplate.cloneNode(true);
+    newPopup.querySelector('.popup__avatar').src = author.avatar;
+    newPopup.querySelector('.popup__title').textContent = offer.title;
+    newPopup.querySelector('.popup__text--address').textContent = offer.address;
+    newPopup.querySelector('.popup__text--price').querySelector('[data-price]').textContent = offer.price;
+    newPopup.querySelector('.popup__type').textContent = popupTypes[offer.type];
+    newPopup.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+    newPopup.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
+    renderDescription(newPopup, offer.description);
+    renderFeatures(newPopup, offer.features);
+    renderPhotos(newPopup, offer.photos);
+
+    map.append(newPopup);
+  });
+};
+
+export {createPopups};
 
