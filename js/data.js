@@ -67,16 +67,16 @@ const MIN_LAT = 35.65000;
 const MAX_LNG = 139.80000;
 const MIN_LNG = 139.70000;
 
-const SIMILAR_ADS_COUNT = 10;
+// const SIMILAR_ADS_COUNT = 10;
 
 // Функция создания нового объекта в Кексобукинге. Состоит из создания аватара и создания самого объявления
 
-function createAvatar (index) {
+const createAvatar = (index) => {
   const addressNumber = getTwoDigitsNumber(index + 1);
   return `img/avatars/user${addressNumber}.png`;
-}
+};
 
-function createAd (elements, index) {
+const createAd = (elements, index) => {
   const locationLat = getRandomPositiveFloat(MIN_LAT, MAX_LAT, 5);
   const locationLng = getRandomPositiveFloat(MIN_LNG, MAX_LNG, 5);
   return {
@@ -86,7 +86,7 @@ function createAd (elements, index) {
     offer: {
       title: getRandomArrayElement(OBJECT_TITLES),
       address: `${locationLat}, ${locationLng}`,
-      price: getRandomPositiveInteger(100, 1000),
+      price: getRandomPositiveInteger(500, 10000),
       type: getRandomArrayElement(OBJECT_TYPES),
       rooms: getRandomPositiveInteger(1, 10),
       guests: getRandomPositiveInteger(1, 10),
@@ -101,8 +101,8 @@ function createAd (elements, index) {
       lng: locationLng,
     },
   };
-}
+};
 
-const createAds = () => Array.from({length: SIMILAR_ADS_COUNT}, createAd);
+const createAds = (number) => Array.from({length: number}, createAd);
 
 export {createAds};

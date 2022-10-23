@@ -1,5 +1,8 @@
-import {createAds} from './data.js';
+import { createAds } from './data.js';
+import {createPopups} from './popup.js';
 
-// eslint-disable-next-line
-console.log(createAds());
+const similarAds = createAds(1);
+
+createPopups(similarAds);
+
 
