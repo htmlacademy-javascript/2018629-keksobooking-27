@@ -73,6 +73,24 @@ const onRoomsChange = () => pristine.validate(capacityField);
 roomsField.addEventListener('change', onRoomsChange);
 capacityField.addEventListener('change', onCapacityChange);
 
+// Поля «Время заезда» и «Время выезда» синхронизированы:
+// при изменении значения одного поля во втором выделяется соответствующее ему значение.
+// Например, если время заезда указано «после 14», то время выезда
+// будет равно «до 14» и наоборот.
+
+const checkinTime = form.querySelector('[name="timein"]');
+const checkoutTime = form.querySelector('[name="timeout"]');
+
+const onCheckinChange = () => {
+  checkoutTime.value = checkinTime.value;
+};
+const onCheckoutChange = () => {
+  checkinTime.value = checkoutTime.value;
+};
+
+checkinTime.addEventListener('change', onCheckinChange);
+checkoutTime.addEventListener('change', onCheckoutChange);
+
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
