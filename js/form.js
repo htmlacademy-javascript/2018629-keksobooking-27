@@ -14,6 +14,9 @@ const turnFormOn = () => {
   });
 };
 
+
+// Валидация формы при помощи библиотеки Pristine
+
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
@@ -51,6 +54,7 @@ const onTypeChange = function () {
 
 form.querySelector('[name="type"]').addEventListener('change', onTypeChange);
 
+
 // Поле «Количество комнат» синхронизировано с полем «Количество мест» таким образом, что при выборе количества комнат вводятся ограничения на допустимые варианты выбора количества гостей:
 
 const roomsField = form.querySelector('[name="rooms"]');
@@ -72,6 +76,25 @@ const onRoomsChange = () => pristine.validate(capacityField);
 
 roomsField.addEventListener('change', onRoomsChange);
 capacityField.addEventListener('change', onCapacityChange);
+
+
+// Поля «Время заезда» и «Время выезда» синхронизированы:
+
+const checkinTime = form.querySelector('[name="timein"]');
+const checkoutTime = form.querySelector('[name="timeout"]');
+
+const onCheckinChange = () => {
+  checkoutTime.value = checkinTime.value;
+};
+const onCheckoutChange = () => {
+  checkinTime.value = checkoutTime.value;
+};
+
+checkinTime.addEventListener('change', onCheckinChange);
+checkoutTime.addEventListener('change', onCheckoutChange);
+
+
+// Валидация формы при сабмите
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
