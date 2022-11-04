@@ -15,9 +15,9 @@ const changeSliderOptionsOnType = (slider, type, priceVariants) => {
       slider.noUiSlider.updateOptions(
         {range: {
           min: 0,
-          // max: 5000,
+          max: 10000,
         },
-        // start: 0,
+        start: 0,
         });
     } else {
       slider.noUiSlider.updateOptions(
