@@ -108,4 +108,39 @@ form.addEventListener('submit', (evt) => {
   }
 });
 
+// Создание слайдера и валидация значения, получаемого через слайдер
+const sliderElement = document.querySelector('.ad-form__slider');
+
+const createSlider = (slider, price) => {
+  noUiSlider.create(slider, {
+    range: {
+      min: 0,
+      max: 100000,
+    },
+    start: 1000,
+    step: 1,
+    connect: 'lower',
+    format: {
+      to: function (value) {
+        return value.toFixed(0);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
+    },
+  });
+
+  slider.noUiSlider.on('update', () => {
+    price.value = slider.noUiSlider.get();
+    pristine.validate(priceField);
+  });
+
+  price.addEventListener('change', () => {
+    slider.noUiSlider.set(price.value);
+  });
+};
+
+createSlider(sliderElement, priceField);
+
+
 export {turnFormOn, turnFormOff};

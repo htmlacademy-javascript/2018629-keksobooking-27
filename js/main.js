@@ -3,4 +3,3 @@ import './map.js';
 import './popup.js';
 import './form.js';
 import './filters.js';
-import './slider.js';
