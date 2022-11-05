@@ -129,10 +129,11 @@ const createSlider = (slider, price) => {
       },
     },
   });
-
-  slider.noUiSlider.on('update', () => {
-    price.value = slider.noUiSlider.get();
-    pristine.validate(priceField);
+  slider.noUiSlider.on('start', () => {
+    slider.noUiSlider.on('update', () => {
+      price.value = slider.noUiSlider.get();
+      pristine.validate(priceField);
+    });
   });
 
   price.addEventListener('change', () => {
