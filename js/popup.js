@@ -1,4 +1,4 @@
-const map = document.querySelector('#map-canvas');
+// const map = document.querySelector('#map-canvas');
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const popupTypes = {
@@ -47,23 +47,21 @@ const renderFeatures = (popupElement, features) => {
 
 };
 
-const createPopups = (addsData) => {
-  addsData.forEach(({author, offer}) => {
-    const newPopup = popupTemplate.cloneNode(true);
-    newPopup.querySelector('.popup__avatar').src = author.avatar;
-    newPopup.querySelector('.popup__title').textContent = offer.title;
-    newPopup.querySelector('.popup__text--address').textContent = offer.address;
-    newPopup.querySelector('.popup__text--price').querySelector('[data-price]').textContent = offer.price;
-    newPopup.querySelector('.popup__type').textContent = popupTypes[offer.type];
-    newPopup.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-    newPopup.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+const createPopups = ({author, offer}) => {
+  const newPopup = popupTemplate.cloneNode(true);
+  newPopup.querySelector('.popup__avatar').src = author.avatar;
+  newPopup.querySelector('.popup__title').textContent = offer.title;
+  newPopup.querySelector('.popup__text--address').textContent = offer.address;
+  newPopup.querySelector('.popup__text--price').querySelector('[data-price]').textContent = offer.price;
+  newPopup.querySelector('.popup__type').textContent = popupTypes[offer.type];
+  newPopup.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+  newPopup.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
-    renderDescription(newPopup, offer.description);
-    renderFeatures(newPopup, offer.features);
-    renderPhotos(newPopup, offer.photos);
+  renderDescription(newPopup, offer.description);
+  renderFeatures(newPopup, offer.features);
+  renderPhotos(newPopup, offer.photos);
 
-    map.append(newPopup);
-  });
+  return newPopup;
 };
 
 export {createPopups};
