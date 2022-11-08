@@ -1,8 +1,13 @@
+import { showAlert } from './util.js';
+
 const getData = (onSuccess) => {
   fetch('https://27.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((otherAds) => {
       onSuccess(otherAds);
+    })
+    .catch(() => {
+      showAlert('Не получилось загрузить данные с сервера. Попробуйте перезагрузить страницу');
     });
 };
 
