@@ -1,3 +1,9 @@
+// import { sendData } from '/api.js';
+// import {showErrorMessage} from './modal.js';
+
+import { sendData } from './api.js';
+import { showErrorMessage } from './modal.js';
+
 const form = document.querySelector('.ad-form');
 
 const turnFormOff = () => {
@@ -93,21 +99,6 @@ const onCheckoutChange = () => {
 checkinTime.addEventListener('change', onCheckinChange);
 checkoutTime.addEventListener('change', onCheckoutChange);
 
-
-// Валидация формы при сабмите
-
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
-  const isValid = pristine.validate();
-  if (isValid) {
-    form.submit();
-  } else {
-  // eslint-disable-next-line
-    console.log('Ашыпка');
-  }
-});
-
 // Создание слайдера и валидация значения, получаемого через слайдер
 const sliderElement = document.querySelector('.ad-form__slider');
 
@@ -139,5 +130,43 @@ const createSlider = (slider, price) => {
 
 createSlider(sliderElement, priceField);
 
+// Блокировка и разблокировка кнопки "отправить"
+const submitButton = form.querySelector('.ad-form__submit');
 
-export {turnFormOn, turnFormOff};
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуется...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+// Валидация формы при сабмите
+
+const setFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          showErrorMessage();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {turnFormOn, turnFormOff, setFormSubmit};
+

@@ -1,4 +1,3 @@
-// const map = document.querySelector('#map-canvas');
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const popupTypes = {
@@ -34,17 +33,20 @@ const renderDescription = (popupElement, description) => {
 };
 
 const renderFeatures = (popupElement, features) => {
-  const popupFeatures = features;
-  const featuresList = popupElement.querySelector('.popup__features').querySelectorAll('.popup__feature');
-  const modifiers = popupFeatures.map((feature) => `popup__feature--${feature}`);
+  if (features) {
+    const popupFeatures = features;
+    const featuresList = popupElement.querySelector('.popup__features').querySelectorAll('.popup__feature');
+    const modifiers = popupFeatures.map((feature) => `popup__feature--${feature}`);
 
-  featuresList.forEach((featuresListItem) => {
-    const modifier = featuresListItem.classList[1];
-    if (!modifiers.includes(modifier)) {
-      featuresListItem.remove();
-    }
-  });
-
+    featuresList.forEach((featuresListItem) => {
+      const modifier = featuresListItem.classList[1];
+      if (!modifiers.includes(modifier)) {
+        featuresListItem.remove();
+      }
+    });
+  } else {
+    popupElement.querySelector('.popup__features').remove();
+  }
 };
 
 const createPopups = ({author, offer}) => {

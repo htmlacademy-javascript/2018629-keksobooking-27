@@ -60,4 +60,7 @@ const getRandomLengthUniqueArray = (data) => {
   return newUniqueArray;
 };
 
-export {getRandomPositiveFloat, getRandomPositiveInteger, getRandomArrayElement, getRandomLengthUniqueArray, getRandomLengthArray, getTwoDigitsNumber};
+// Проверка кнопки
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomPositiveFloat, getRandomPositiveInteger, getRandomArrayElement, getRandomLengthUniqueArray, getRandomLengthArray, getTwoDigitsNumber, isEscapeKey};
