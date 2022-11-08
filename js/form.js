@@ -121,12 +121,8 @@ const createSlider = (slider, price) => {
     step: 1,
     connect: 'lower',
     format: {
-      to: function (value) {
-        return value.toFixed(0);
-      },
-      from: function (value) {
-        return parseFloat(value);
-      },
+      to: (value) => value.toFixed(0),
+      from: (value) => parseFloat(value),
     },
   });
   slider.noUiSlider.on('start', () => {
