@@ -63,4 +63,26 @@ const getRandomLengthUniqueArray = (data) => {
 // Проверка кнопки
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomPositiveFloat, getRandomPositiveInteger, getRandomArrayElement, getRandomLengthUniqueArray, getRandomLengthArray, getTwoDigitsNumber, isEscapeKey};
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = '200';
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.width = '50%';
+  alertContainer.style.left = '25%';
+  alertContainer.style.top = '30px';
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '20px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'rgba(255, 150, 150, 0.9)';
+  alertContainer.style.borderColor = '#ff6d51';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, 5000);
+};
+
+export {getRandomPositiveFloat, getRandomPositiveInteger, getRandomArrayElement, getRandomLengthUniqueArray, getRandomLengthArray, getTwoDigitsNumber, isEscapeKey, showAlert};
