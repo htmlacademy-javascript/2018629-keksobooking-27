@@ -77,6 +77,7 @@ const resetMap = () => {
       lng: 139.75364,
     }
   );
+  map.closePopup();
 };
 
 export {createMarkers, createMap, resetMap};
