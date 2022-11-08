@@ -21,5 +21,4 @@ getData((otherAds) => {
   });
 });
 
-
 setFormSubmit(showSuccessMessage);

@@ -1,10 +1,9 @@
-// import { sendData } from '/api.js';
-// import {showErrorMessage} from './modal.js';
-
 import { sendData } from './api.js';
 import { showErrorMessage } from './modal.js';
+import { resetMap } from './map.js';
 
 const form = document.querySelector('.ad-form');
+const resetButton = form.querySelector('.ad-form__reset');
 
 const turnFormOff = () => {
   form.classList.add('ad-form--disabled');
@@ -116,6 +115,7 @@ const createSlider = (slider, price) => {
       from: (value) => parseFloat(value),
     },
   });
+
   slider.noUiSlider.on('start', () => {
     slider.noUiSlider.on('update', () => {
       price.value = slider.noUiSlider.get();
@@ -126,9 +126,17 @@ const createSlider = (slider, price) => {
   price.addEventListener('change', () => {
     slider.noUiSlider.set(price.value);
   });
+
+  // resetButton.addEventListener('click', () => {
+  //   slider.noUiSlider.reset();
+  // });
 };
 
 createSlider(sliderElement, priceField);
+
+const resetSlider = () => {
+  sliderElement.noUiSlider.reset();
+};
 
 // Блокировка и разблокировка кнопки "отправить"
 const submitButton = form.querySelector('.ad-form__submit');
@@ -142,6 +150,16 @@ const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = 'Опубликовать';
 };
+
+// Сброс формы к начальному состоянию
+
+const resetAll = () => {
+  form.reset();
+  resetMap();
+  resetSlider();
+};
+
+resetButton.addEventListener('click', resetAll);
 
 // Валидация формы при сабмите
 
@@ -157,6 +175,7 @@ const setFormSubmit = (onSuccess) => {
         () => {
           onSuccess();
           unblockSubmitButton();
+          resetAll();
         },
         () => {
           showErrorMessage();

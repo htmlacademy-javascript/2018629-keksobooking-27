@@ -5,6 +5,7 @@ import { createPopups } from './popup.js';
 const addressField = document.querySelector('#address');
 
 const map = L.map('map-canvas');
+const mainMarker = L.marker([0,0], {draggable: true});
 const markerGroup = L.layerGroup().addTo(map);
 
 const mainPinIcon = L.icon({
@@ -14,15 +15,10 @@ const mainPinIcon = L.icon({
 });
 
 const createMainMarker = (coordinate) => {
-  const mainMarker = L.marker(
-    coordinate,
-    {
-      draggable: true,
-      icon: mainPinIcon,
-    },
-  );
-
-  mainMarker.addTo(map);
+  mainMarker
+    .setLatLng(coordinate)
+    .setIcon(mainPinIcon)
+    .addTo(map);
 
   mainMarker.on('moveend', (evt) => {
     const newAddress = evt.target.getLatLng();
@@ -55,7 +51,9 @@ const createMap = (coordinate) => {
   });
 
   map.setView(
-    coordinate, 12);
+    coordinate,
+    12
+  );
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -67,4 +65,18 @@ const createMap = (coordinate) => {
   createMainMarker(coordinate);
 };
 
-export {createMarkers, createMap};
+const resetMap = () => {
+  map.setView(
+    {
+      lat: 35.68211,
+      lng: 139.75364,
+    }, 12);
+  mainMarker.setLatLng(
+    {
+      lat: 35.68211,
+      lng: 139.75364,
+    }
+  );
+};
+
+export {createMarkers, createMap, resetMap};
