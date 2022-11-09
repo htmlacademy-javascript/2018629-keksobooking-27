@@ -34,9 +34,8 @@ const renderDescription = (popupElement, description) => {
 
 const renderFeatures = (popupElement, features) => {
   if (features) {
-    const popupFeatures = features;
     const featuresList = popupElement.querySelector('.popup__features').querySelectorAll('.popup__feature');
-    const modifiers = popupFeatures.map((feature) => `popup__feature--${feature}`);
+    const modifiers = features.map((feature) => `popup__feature--${feature}`);
 
     featuresList.forEach((featuresListItem) => {
       const modifier = featuresListItem.classList[1];

@@ -2,6 +2,11 @@ import { turnFormOn } from './form.js';
 import { turnFiltersOn } from './filters.js';
 import { createPopups } from './popup.js';
 
+const INIT_LOCATION = {
+  lat: 35.68211,
+  lng: 139.75364,
+};
+
 const addressField = document.querySelector('#address');
 
 const map = L.map('map-canvas');
@@ -67,17 +72,11 @@ const createMap = (coordinate) => {
 
 const resetMap = () => {
   map.setView(
-    {
-      lat: 35.68211,
-      lng: 139.75364,
-    }, 12);
+    INIT_LOCATION, 12);
   mainMarker.setLatLng(
-    {
-      lat: 35.68211,
-      lng: 139.75364,
-    }
+    INIT_LOCATION
   );
   map.closePopup();
 };
 
-export {createMarkers, createMap, resetMap};
+export {INIT_LOCATION, createMarkers, createMap, resetMap};
