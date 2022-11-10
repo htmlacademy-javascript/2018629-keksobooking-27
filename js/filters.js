@@ -1,5 +1,6 @@
 const filters = document.querySelector('.map__filters');
 
+// Функции активации и дезактивации фильтров
 const turnFiltersOff = () => {
   filters.classList.add('map__filters--disabled');
   filters.querySelectorAll('.map__filter').forEach((select) => {
@@ -16,4 +17,11 @@ const turnFiltersOn = () => {
   filters.querySelector('.map__features').disable = false;
 };
 
-export {turnFiltersOn, turnFiltersOff};
+// Функции для фильтрации объявлений с помощью фильтров
+
+const compareHousingType = ({offer}) => {
+  const housingTypeInput = filters.querySelector('[name="housing-type"]');
+  return offer.type === housingTypeInput.value;
+};
+
+export {turnFiltersOn, turnFiltersOff, compareHousingType};

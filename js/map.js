@@ -79,4 +79,7 @@ const resetMap = () => {
   map.closePopup();
 };
 
-export {INIT_LOCATION, createMarkers, createMap, resetMap};
+const closePopup = () => map.closePopup();
+const resetMarkersLayerGroup = () => markerGroup.clearLayers();
+
+export {INIT_LOCATION, createMarkers, createMap, resetMap, closePopup, resetMarkersLayerGroup};

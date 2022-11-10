@@ -63,6 +63,7 @@ const getRandomLengthUniqueArray = (data) => {
 // Проверка кнопки
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+// создание сообщения об ошибке
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '200';
@@ -85,4 +86,30 @@ const showAlert = (message) => {
   }, 5000);
 };
 
-export {getRandomPositiveFloat, getRandomPositiveInteger, getRandomArrayElement, getRandomLengthUniqueArray, getRandomLengthArray, getTwoDigitsNumber, isEscapeKey, showAlert};
+// Функция для устранения дребезга
+// Источник - https://www.freecodecamp.org/news/javascript-debounce-example
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+// Функция для пропуска кадров
+// Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_throttle
+
+function throttle (callback, delayBetweenFrames) {
+  let lastTime = 0;
+
+  return (...rest) => {
+    const now = new Date();
+    if (now - lastTime >= delayBetweenFrames) {
+      callback.apply(this, rest);
+      lastTime = now;
+    }
+  };
+}
+
+export {getRandomPositiveFloat, getRandomPositiveInteger, getRandomArrayElement, getRandomLengthUniqueArray, getRandomLengthArray, getTwoDigitsNumber, isEscapeKey, showAlert, debounce, throttle};
