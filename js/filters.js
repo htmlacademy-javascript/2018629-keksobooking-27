@@ -19,9 +19,46 @@ const turnFiltersOn = () => {
 
 // Функции для фильтрации объявлений с помощью фильтров
 
-const compareHousingType = ({offer}) => {
-  const housingTypeInput = filters.querySelector('[name="housing-type"]');
-  return offer.type === housingTypeInput.value;
+const getcheckedCheckboxes = (featuresArray) => {
+  const checkedCheckboxes = [];
+  featuresArray.forEach((item) => {
+    if (item.checked) {
+      checkedCheckboxes.push(item.value);
+    }
+  });
+  return checkedCheckboxes;
 };
 
-export {turnFiltersOn, turnFiltersOff, compareHousingType};
+const getPriceRange = (value) => {
+  let priceRange;
+  if (value < 10000) {
+    priceRange = 'low';
+  } else if (value >= 10000 && value < 50000) {
+    priceRange = 'middle';
+  } else if (value >= 50000) {
+    priceRange = 'high';
+  }
+
+  return priceRange;
+};
+
+const compareTwoFields = ({offer}) => {
+  const housingTypeInput = filters.querySelector('[name="housing-type"]');
+  const housingPriceInput = filters.querySelector('[name="housing-price"]');
+  const housingRoomsInput = filters.querySelector('[name="housing-rooms"]');
+  const housingGuestsInput = filters.querySelector('[name="housing-guests"]');
+  const mapFeatures = document.querySelectorAll('[name="features"]');
+  const priceRange = getPriceRange(offer.price);
+  const checkedFeatures = getcheckedCheckboxes(mapFeatures);
+  return (offer.type === housingTypeInput.value || housingTypeInput.value === 'any')
+    &&
+      (priceRange === housingPriceInput.value || housingPriceInput.value === 'any')
+      &&
+        (offer.rooms.toString() === housingRoomsInput.value || housingRoomsInput.value === 'any')
+        &&
+          (offer.guests.toString() === housingGuestsInput.value || housingGuestsInput.value === 'any')
+          &&
+            (checkedFeatures.length === 0 || offer.features && checkedFeatures.every((element) => offer.features.includes(element)));
+};
+
+export {turnFiltersOn, turnFiltersOff, compareTwoFields};

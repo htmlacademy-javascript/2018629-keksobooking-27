@@ -88,28 +88,13 @@ const showAlert = (message) => {
 
 // Функция для устранения дребезга
 // Источник - https://www.freecodecamp.org/news/javascript-debounce-example
-function debounce (callback, timeoutDelay = 500) {
+const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
 
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
-// Функция для пропуска кадров
-// Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_throttle
-
-function throttle (callback, delayBetweenFrames) {
-  let lastTime = 0;
-
-  return (...rest) => {
-    const now = new Date();
-    if (now - lastTime >= delayBetweenFrames) {
-      callback.apply(this, rest);
-      lastTime = now;
-    }
-  };
-}
-
-export {getRandomPositiveFloat, getRandomPositiveInteger, getRandomArrayElement, getRandomLengthUniqueArray, getRandomLengthArray, getTwoDigitsNumber, isEscapeKey, showAlert, debounce, throttle};
+export {getRandomPositiveFloat, getRandomPositiveInteger, getRandomArrayElement, getRandomLengthUniqueArray, getRandomLengthArray, getTwoDigitsNumber, isEscapeKey, showAlert, debounce};

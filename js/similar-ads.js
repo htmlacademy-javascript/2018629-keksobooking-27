@@ -1,25 +1,29 @@
-import { compareHousingType } from './filters.js';
+import { compareTwoFields } from './filters.js';
 import { closePopup, createMarkers, resetMarkersLayerGroup } from './map.js';
 
 const MAX_SIMILAR_ADS_SHOWN = 10;
-const housingTypeInput = document.querySelector('[name="housing-type"]');
+const mapFilters = document.querySelectorAll('.map__filter');
+const mapFeatures = document.querySelectorAll('[name="features"]');
 
-const filterHousingType = (otherAds) => {
-  // debugger;
-  closePopup();
-  resetMarkersLayerGroup();
-  const newAds = otherAds.filter(compareHousingType).slice(0, MAX_SIMILAR_ADS_SHOWN);
-  newAds.forEach((ad) => createMarkers(ad));
+
+const onAnyFieldChange = (cb) => {
+  mapFilters.forEach((item) => item.addEventListener('change', () => cb()));
+  mapFeatures.forEach((item) => item.addEventListener('change', () => cb()));
 };
 
-const onHousingFilterChange = (cb) => {
-  housingTypeInput.addEventListener('change', () => cb());
+
+const filterAll = (otherAds) => {
+  closePopup();
+  resetMarkersLayerGroup();
+  otherAds
+    .filter(compareTwoFields).slice(0, MAX_SIMILAR_ADS_SHOWN)
+    .forEach((ad) => createMarkers(ad));
 };
 
 const renderSimilarAds = (otherAds) => {
-  const showedAds = otherAds.slice(0, 10);
-  showedAds.forEach((ad) => createMarkers(ad));
-  onHousingFilterChange(() => filterHousingType(otherAds));
+  otherAds
+    .slice(0, MAX_SIMILAR_ADS_SHOWN)
+    .forEach((ad) => createMarkers(ad));
 };
 
-export { renderSimilarAds };
+export { renderSimilarAds, onAnyFieldChange, filterAll };
