@@ -1,4 +1,4 @@
-import { compareTwoFields } from './filters.js';
+import { compareAllFields } from './filters.js';
 import { closePopup, createMarkers, resetMarkersLayerGroup } from './map.js';
 
 const MAX_SIMILAR_ADS_SHOWN = 10;
@@ -16,7 +16,7 @@ const filterAll = (otherAds) => {
   closePopup();
   resetMarkersLayerGroup();
   otherAds
-    .filter(compareTwoFields).slice(0, MAX_SIMILAR_ADS_SHOWN)
+    .filter(compareAllFields).slice(0, MAX_SIMILAR_ADS_SHOWN)
     .forEach((ad) => createMarkers(ad));
 };
 

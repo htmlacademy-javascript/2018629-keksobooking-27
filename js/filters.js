@@ -42,7 +42,7 @@ const getPriceRange = (value) => {
   return priceRange;
 };
 
-const compareTwoFields = ({offer}) => {
+const compareAllFields = ({offer}) => {
   const housingTypeInput = filters.querySelector('[name="housing-type"]');
   const housingPriceInput = filters.querySelector('[name="housing-price"]');
   const housingRoomsInput = filters.querySelector('[name="housing-rooms"]');
@@ -61,4 +61,4 @@ const compareTwoFields = ({offer}) => {
             (checkedFeatures.length === 0 || offer.features && checkedFeatures.every((element) => offer.features.includes(element)));
 };
 
-export {turnFiltersOn, turnFiltersOff, compareTwoFields};
+export {turnFiltersOn, turnFiltersOff, compareAllFields};
