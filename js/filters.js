@@ -1,3 +1,5 @@
+const MAX_LOW_PRICE = 10000;
+const MAX_MEDIUM_PRICE = 50000;
 const filters = document.querySelector('.map__filters');
 
 // Функции активации и дезактивации фильтров
@@ -31,34 +33,49 @@ const getcheckedCheckboxes = (featuresArray) => {
 
 const getPriceRange = (value) => {
   let priceRange;
-  if (value < 10000) {
+  if (value < MAX_LOW_PRICE) {
     priceRange = 'low';
-  } else if (value >= 10000 && value < 50000) {
+  } else if (value >= MAX_LOW_PRICE && value <= MAX_MEDIUM_PRICE) {
     priceRange = 'middle';
-  } else if (value >= 50000) {
+  } else if (value > MAX_MEDIUM_PRICE) {
     priceRange = 'high';
   }
 
   return priceRange;
 };
 
-const compareAllFields = ({offer}) => {
+const compareHousingType = (type) => {
   const housingTypeInput = filters.querySelector('[name="housing-type"]');
-  const housingPriceInput = filters.querySelector('[name="housing-price"]');
-  const housingRoomsInput = filters.querySelector('[name="housing-rooms"]');
-  const housingGuestsInput = filters.querySelector('[name="housing-guests"]');
-  const mapFeatures = document.querySelectorAll('[name="features"]');
-  const priceRange = getPriceRange(offer.price);
-  const checkedFeatures = getcheckedCheckboxes(mapFeatures);
-  return (offer.type === housingTypeInput.value || housingTypeInput.value === 'any')
-    &&
-      (priceRange === housingPriceInput.value || housingPriceInput.value === 'any')
-      &&
-        (offer.rooms.toString() === housingRoomsInput.value || housingRoomsInput.value === 'any')
-        &&
-          (offer.guests.toString() === housingGuestsInput.value || housingGuestsInput.value === 'any')
-          &&
-            (checkedFeatures.length === 0 || offer.features && checkedFeatures.every((element) => offer.features.includes(element)));
+  return type === housingTypeInput.value || housingTypeInput.value === 'any';
 };
+
+const compareHousingPrice = (price) => {
+  const housingPriceInput = filters.querySelector('[name="housing-price"]');
+  const priceRange = getPriceRange(price);
+  return priceRange === housingPriceInput.value || housingPriceInput.value === 'any';
+};
+
+const compareHousingRooms = (rooms) => {
+  const housingRoomsInput = filters.querySelector('[name="housing-rooms"]');
+  return rooms.toString() === housingRoomsInput.value || housingRoomsInput.value === 'any';
+};
+
+const compareHousingGuests = (guests) => {
+  const housingGuestsInput = filters.querySelector('[name="housing-guests"]');
+  return guests.toString() === housingGuestsInput.value || housingGuestsInput.value === 'any';
+};
+
+const compareHousingFeatures = (features) => {
+  const mapFeatures = document.querySelectorAll('[name="features"]');
+  const checkedFeatures = getcheckedCheckboxes(mapFeatures);
+  return checkedFeatures.length === 0 || features && checkedFeatures.every((element) => features.includes(element));
+};
+
+const compareAllFields = ({offer}) =>
+  compareHousingType(offer.type)
+  && compareHousingPrice(offer.price)
+  && compareHousingRooms(offer.rooms)
+  && compareHousingGuests(offer.guests)
+  && compareHousingFeatures(offer.features);
 
 export {turnFiltersOn, turnFiltersOff, compareAllFields};
