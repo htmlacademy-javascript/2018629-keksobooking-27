@@ -36,6 +36,7 @@ const showErrorMessage = () => {
   errorMessage.classList.remove('hidden');
   addButtonHandler(errorMessage);
   document.addEventListener('keydown', onPopupEscKeydown);
+  errorMessage.addEventListener('click', closeErrorModal);
 };
 
 const showSuccessMessage = () => {
