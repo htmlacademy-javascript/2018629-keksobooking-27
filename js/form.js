@@ -173,7 +173,7 @@ const resetAll = () => {
 resetButton.addEventListener('click', resetAll);
 
 const onResetButtonClick = (cb) => {
-  resetButton.addEventListener('click', cb());
+  resetButton.addEventListener('click', cb);
 };
 
 // Валидация формы при сабмите
