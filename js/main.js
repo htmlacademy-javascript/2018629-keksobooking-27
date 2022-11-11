@@ -5,6 +5,7 @@ import { getData } from './api.js';
 import { showSuccessMessage } from './modal.js';
 import { renderSimilarAds, onAnyFieldChange, filterAll } from './similar-ads.js';
 import { debounce } from './util.js';
+import './picture-preview.js';
 
 const RERENDER_DELAY = 500;
 

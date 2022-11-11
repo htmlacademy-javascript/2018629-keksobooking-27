@@ -1,6 +1,7 @@
 import { sendData } from './api.js';
 import { showErrorMessage } from './modal.js';
 import { resetMap } from './map.js';
+import { createPhotoPreview } from './picture-preview.js';
 
 const form = document.querySelector('.ad-form');
 const resetButton = form.querySelector('.ad-form__reset');
@@ -18,7 +19,6 @@ const turnFormOn = () => {
     fieldset.disable = false;
   });
 };
-
 
 // Валидация формы при помощи библиотеки Pristine
 
@@ -126,10 +126,6 @@ const createSlider = (slider, price) => {
   price.addEventListener('change', () => {
     slider.noUiSlider.set(price.value);
   });
-
-  // resetButton.addEventListener('click', () => {
-  //   slider.noUiSlider.reset();
-  // });
 };
 
 createSlider(sliderElement, priceField);
@@ -137,6 +133,16 @@ createSlider(sliderElement, priceField);
 const resetSlider = () => {
   sliderElement.noUiSlider.reset();
 };
+
+// Создание превью фотографии жилья и аватарки
+const userAvatarChooser = form.querySelector('.ad-form-header__input');
+const userAvatarPreviewContainer = form.querySelector('.ad-form-header__preview');
+
+const housingPhotoChooser = form.querySelector('.ad-form__upload').querySelector('input');
+const housingPhotoPreviewContainer = form.querySelector('.ad-form__photo');
+
+createPhotoPreview(userAvatarChooser, userAvatarPreviewContainer);
+createPhotoPreview(housingPhotoChooser, housingPhotoPreviewContainer);
 
 // Блокировка и разблокировка кнопки "отправить"
 const submitButton = form.querySelector('.ad-form__submit');
