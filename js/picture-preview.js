@@ -33,4 +33,12 @@ const createPhotoPreview = (fileChooser, previewContainer) => {
   });
 };
 
-export {createPhotoPreview, createImgForPreview};
+const resetAvatarUrl = (photoContainer, defaultPhoto) => {
+  photoContainer.querySelector('img').src = defaultPhoto;
+};
+
+const resetPhotoContainer = (photoContainer) => {
+  photoContainer.innerHTML = '';
+};
+
+export {createPhotoPreview, createImgForPreview, resetAvatarUrl, resetPhotoContainer};

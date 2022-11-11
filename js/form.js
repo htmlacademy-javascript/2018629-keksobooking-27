@@ -1,8 +1,9 @@
 import { sendData } from './api.js';
 import { showErrorMessage } from './modal.js';
 import { resetMap } from './map.js';
-import { createPhotoPreview } from './picture-preview.js';
+import { createPhotoPreview, resetAvatarUrl, resetPhotoContainer } from './picture-preview.js';
 
+const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 const form = document.querySelector('.ad-form');
 const resetButton = form.querySelector('.ad-form__reset');
 
@@ -163,6 +164,8 @@ const resetAll = () => {
   form.reset();
   resetMap();
   resetSlider();
+  resetAvatarUrl(userAvatarPreviewContainer, DEFAULT_AVATAR);
+  resetPhotoContainer(housingPhotoPreviewContainer);
 };
 
 resetButton.addEventListener('click', resetAll);
