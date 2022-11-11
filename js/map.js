@@ -1,5 +1,4 @@
 import { turnFormOn } from './form.js';
-import { turnFiltersOn } from './filters.js';
 import { createPopups } from './popup.js';
 
 const INIT_LOCATION = {
@@ -51,7 +50,6 @@ const createMarkers = ({author, offer, location}) => {
 
 const createMap = (coordinate) => {
   map.on('load', () => {
-    turnFiltersOn();
     turnFormOn();
   });
 
@@ -70,6 +68,10 @@ const createMap = (coordinate) => {
   createMainMarker(coordinate);
 };
 
+
+const closePopup = () => map.closePopup();
+const resetMarkersLayerGroup = () => markerGroup.clearLayers();
+
 const resetMap = () => {
   map.setView(
     INIT_LOCATION, 12);
@@ -77,9 +79,7 @@ const resetMap = () => {
     INIT_LOCATION
   );
   map.closePopup();
+  closePopup();
 };
-
-const closePopup = () => map.closePopup();
-const resetMarkersLayerGroup = () => markerGroup.clearLayers();
 
 export {INIT_LOCATION, createMarkers, createMap, resetMap, closePopup, resetMarkersLayerGroup};

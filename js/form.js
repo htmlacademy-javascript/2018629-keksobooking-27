@@ -2,6 +2,7 @@ import { sendData } from './api.js';
 import { showErrorMessage } from './modal.js';
 import { resetMap } from './map.js';
 import { createPhotoPreview, resetAvatarUrl, resetPhotoContainer } from './picture-preview.js';
+import { resetFilters } from './filters.js';
 
 const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 const form = document.querySelector('.ad-form');
@@ -162,6 +163,7 @@ const unblockSubmitButton = () => {
 
 const resetAll = () => {
   form.reset();
+  resetFilters();
   resetMap();
   resetSlider();
   resetAvatarUrl(userAvatarPreviewContainer, DEFAULT_AVATAR);
@@ -169,6 +171,10 @@ const resetAll = () => {
 };
 
 resetButton.addEventListener('click', resetAll);
+
+const onResetButtonClick = (cb) => {
+  resetButton.addEventListener('click', cb());
+};
 
 // Валидация формы при сабмите
 
@@ -196,5 +202,5 @@ const setFormSubmit = (onSuccess) => {
   });
 };
 
-export {turnFormOn, turnFormOff, setFormSubmit};
+export {turnFormOn, turnFormOff, setFormSubmit, onResetButtonClick};
 
