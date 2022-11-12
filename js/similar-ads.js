@@ -13,7 +13,7 @@ const onAnyFieldChange = (cb) => {
 };
 
 
-const filterAll = (otherAds) => {
+const filterAds = (otherAds) => {
   closePopup();
   resetMarkersLayerGroup();
   const filteredAds = [];
@@ -38,4 +38,4 @@ const renderSimilarAds = (otherAds) => {
     .forEach((ad) => createMarkers(ad));
 };
 
-export { renderSimilarAds, onAnyFieldChange, filterAll };
+export { renderSimilarAds, onAnyFieldChange, filterAds };

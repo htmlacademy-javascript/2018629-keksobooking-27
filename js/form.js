@@ -54,7 +54,7 @@ const getPriceErrorMessage = () => {
 
 pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
 
-const onTypeChange = function () {
+const onTypeChange = () => {
   priceField.placeholder = minPrice[this.value];
   pristine.validate(priceField);
 };

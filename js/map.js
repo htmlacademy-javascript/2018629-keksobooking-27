@@ -1,5 +1,5 @@
 import { turnFormOn } from './form.js';
-import { createPopups } from './popup.js';
+import { createPopup } from './popup.js';
 
 const INIT_LOCATION = {
   lat: 35.68211,
@@ -10,7 +10,13 @@ const addressField = document.querySelector('#address');
 
 const map = L.map('map-canvas');
 const mainMarker = L.marker([0,0], {draggable: true});
-const markerGroup = L.layerGroup().addTo(map);
+const markerGroup = L.layerGroup();
+const openStreetMapLayer = L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+);
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
@@ -45,25 +51,17 @@ const createMarkers = ({author, offer, location}) => {
   );
   marker
     .addTo(markerGroup)
-    .bindPopup(createPopups({author, offer}));
+    .bindPopup(createPopup({author, offer}));
 };
 
 const createMap = (coordinate) => {
-  map.on('load', () => {
-    turnFormOn();
-  });
+  map
+    .on('load', turnFormOn)
+    .setView(coordinate, 12);
 
-  map.setView(
-    coordinate,
-    12
-  );
+  openStreetMapLayer.addTo(map);
 
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  ).addTo(map);
+  markerGroup.addTo(map);
 
   createMainMarker(coordinate);
 };
