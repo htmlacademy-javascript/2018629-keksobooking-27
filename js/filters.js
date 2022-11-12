@@ -19,6 +19,8 @@ const turnFiltersOn = () => {
   filters.querySelector('.map__features').disable = false;
 };
 
+const resetFilters = () => filters.reset();
+
 // Функции для фильтрации объявлений с помощью фильтров
 
 const getcheckedCheckboxes = (featuresArray) => {
@@ -78,4 +80,4 @@ const compareAllFields = ({offer}) =>
   && compareHousingGuests(offer.guests)
   && compareHousingFeatures(offer.features);
 
-export {turnFiltersOn, turnFiltersOff, compareAllFields};
+export {turnFiltersOn, turnFiltersOff, resetFilters, compareAllFields};

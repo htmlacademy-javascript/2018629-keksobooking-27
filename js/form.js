@@ -1,7 +1,10 @@
 import { sendData } from './api.js';
 import { showErrorMessage } from './modal.js';
 import { resetMap } from './map.js';
+import { createPhotoPreview, resetAvatarUrl, resetPhotoContainer } from './picture-preview.js';
+import { resetFilters } from './filters.js';
 
+const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 const form = document.querySelector('.ad-form');
 const resetButton = form.querySelector('.ad-form__reset');
 
@@ -18,7 +21,6 @@ const turnFormOn = () => {
     fieldset.disable = false;
   });
 };
-
 
 // Валидация формы при помощи библиотеки Pristine
 
@@ -52,7 +54,7 @@ const getPriceErrorMessage = () => {
 
 pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
 
-const onTypeChange = function () {
+const onTypeChange = () => {
   priceField.placeholder = minPrice[this.value];
   pristine.validate(priceField);
 };
@@ -126,10 +128,6 @@ const createSlider = (slider, price) => {
   price.addEventListener('change', () => {
     slider.noUiSlider.set(price.value);
   });
-
-  // resetButton.addEventListener('click', () => {
-  //   slider.noUiSlider.reset();
-  // });
 };
 
 createSlider(sliderElement, priceField);
@@ -137,6 +135,16 @@ createSlider(sliderElement, priceField);
 const resetSlider = () => {
   sliderElement.noUiSlider.reset();
 };
+
+// Создание превью фотографии жилья и аватарки
+const userAvatarChooser = form.querySelector('.ad-form-header__input');
+const userAvatarPreviewContainer = form.querySelector('.ad-form-header__preview');
+
+const housingPhotoChooser = form.querySelector('.ad-form__upload').querySelector('input');
+const housingPhotoPreviewContainer = form.querySelector('.ad-form__photo');
+
+createPhotoPreview(userAvatarChooser, userAvatarPreviewContainer);
+createPhotoPreview(housingPhotoChooser, housingPhotoPreviewContainer);
 
 // Блокировка и разблокировка кнопки "отправить"
 const submitButton = form.querySelector('.ad-form__submit');
@@ -155,11 +163,18 @@ const unblockSubmitButton = () => {
 
 const resetAll = () => {
   form.reset();
+  resetFilters();
   resetMap();
   resetSlider();
+  resetAvatarUrl(userAvatarPreviewContainer, DEFAULT_AVATAR);
+  resetPhotoContainer(housingPhotoPreviewContainer);
 };
 
 resetButton.addEventListener('click', resetAll);
+
+const onResetButtonClick = (cb) => {
+  resetButton.addEventListener('click', cb);
+};
 
 // Валидация формы при сабмите
 
@@ -187,5 +202,5 @@ const setFormSubmit = (onSuccess) => {
   });
 };
 
-export {turnFormOn, turnFormOff, setFormSubmit};
+export {turnFormOn, turnFormOff, setFormSubmit, onResetButtonClick};
 

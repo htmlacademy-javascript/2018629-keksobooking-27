@@ -11,31 +11,32 @@ const successMessage = successTemplate.cloneNode(true);
 successMessage.classList.add('hidden');
 document.body.append(successMessage);
 
-const onPopupEscKeydown = (evt) => {
+const closeErrorModal = () => {
+  errorMessage.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscKeydown);
+};
+const closeSuccessModal = () => {
+  successMessage.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscKeydown);
+};
+
+function onPopupEscKeydown (evt) {
   if (isEscapeKey(evt)) {
     closeErrorModal();
     closeSuccessModal();
   }
-};
-
-function closeErrorModal () {
-  errorMessage.classList.add('hidden');
-  document.removeEventListener('keydown', onPopupEscKeydown);
-}
-function closeSuccessModal () {
-  successMessage.classList.add('hidden');
-  document.removeEventListener('keydown', onPopupEscKeydown);
 }
 
-const addButtonHandler = (message) => {
+const onErrorMessageOpen = (message) => {
   const errorButton = message.querySelector('.error__button');
   errorButton.addEventListener('click', closeErrorModal);
 };
 
 const showErrorMessage = () => {
   errorMessage.classList.remove('hidden');
-  addButtonHandler(errorMessage);
+  onErrorMessageOpen(errorMessage);
   document.addEventListener('keydown', onPopupEscKeydown);
+  errorMessage.addEventListener('click', closeErrorModal);
 };
 
 const showSuccessMessage = () => {

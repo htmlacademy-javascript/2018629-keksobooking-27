@@ -13,8 +13,7 @@ const renderPhotos = (popupElement, photos) => {
   const photoTemplate = popupElement.querySelector('.popup__photo').cloneNode(true);
   photoBlock.innerHTML = '';
   if (photos) {
-    const photosList = photos;
-    photosList.forEach((photo) => {
+    photos.forEach((photo) => {
       const newPhoto = photoTemplate.cloneNode(true);
       newPhoto.src = photo;
       photoBlock.append(newPhoto);
@@ -34,13 +33,13 @@ const renderDescription = (popupElement, description) => {
 
 const renderFeatures = (popupElement, features) => {
   if (features) {
-    const featuresList = popupElement.querySelector('.popup__features').querySelectorAll('.popup__feature');
+    const featuresElements = popupElement.querySelector('.popup__features').querySelectorAll('.popup__feature');
     const modifiers = features.map((feature) => `popup__feature--${feature}`);
 
-    featuresList.forEach((featuresListItem) => {
-      const modifier = featuresListItem.classList[1];
+    featuresElements.forEach((featuresItem) => {
+      const modifier = featuresItem.classList[1];
       if (!modifiers.includes(modifier)) {
-        featuresListItem.remove();
+        featuresItem.remove();
       }
     });
   } else {
@@ -48,7 +47,7 @@ const renderFeatures = (popupElement, features) => {
   }
 };
 
-const createPopups = ({author, offer}) => {
+const createPopup = ({author, offer}) => {
   const newPopup = popupTemplate.cloneNode(true);
   newPopup.querySelector('.popup__avatar').src = author.avatar;
   newPopup.querySelector('.popup__title').textContent = offer.title;
@@ -65,5 +64,5 @@ const createPopups = ({author, offer}) => {
   return newPopup;
 };
 
-export {createPopups};
+export {createPopup};
 
