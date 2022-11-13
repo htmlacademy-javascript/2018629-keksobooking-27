@@ -7,8 +7,8 @@ const createImgForPreview = (previewContainer) => {
   imgContainer.style.alignSelf = 'center';
   imgContainer.style.marginLeft = 'auto';
   imgContainer.style.marginRight = 'auto';
-  imgContainer.style.width = '40px';
-  imgContainer.style.height = '40px';
+  imgContainer.style.maxWidth = '100%';
+  imgContainer.style.height = 'auto';
   previewContainer.append(imgContainer);
 
   return imgContainer;

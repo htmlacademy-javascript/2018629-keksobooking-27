@@ -1,5 +1,5 @@
-import { createMap, INIT_LOCATION } from './map.js';
-import { turnFormOff, setFormSubmit, onResetButtonClick } from './form.js';
+import { createMap, InitLocation } from './map.js';
+import { turnFormOff, setFormSubmit, onResetButtonClick} from './form.js';
 import { turnFiltersOff, turnFiltersOn } from './filters.js';
 import { getData } from './api.js';
 import { showSuccessMessage } from './modal.js';
@@ -11,13 +11,19 @@ const RERENDER_DELAY = 500;
 turnFiltersOff();
 turnFormOff();
 
-createMap(INIT_LOCATION);
+createMap(InitLocation);
+
+let loadedAds;
 
 getData((otherAds) => {
+  loadedAds = otherAds;
   renderSimilarAds(otherAds);
   turnFiltersOn();
   onAnyFieldChange(debounce(() => filterAds(otherAds), RERENDER_DELAY));
-  onResetButtonClick(() => filterAds(otherAds));
+  onResetButtonClick(() => renderSimilarAds(otherAds));
 });
 
-setFormSubmit(showSuccessMessage);
+setFormSubmit(() => {
+  showSuccessMessage();
+  renderSimilarAds(loadedAds);
+});
