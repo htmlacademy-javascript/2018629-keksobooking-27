@@ -4,7 +4,9 @@ import { createPopup } from './popup.js';
 const DEFAULT_ZOOM = 12;
 const DIGITS_IN_COORDINATE = 5;
 const MAIN_PIN_ICON_SIZE = 52;
+const MAIN_PIN_IMAGE = 'img/main-pin.svg';
 const GENERAL_PIN_ICON_SIZE = 40;
+const GENERAL_PIN_IMAGE = 'img/pin.svg';
 const InitLocation = {
   LAT: 35.68211,
   LNG: 139.75364,
@@ -23,7 +25,7 @@ const openStreetMapLayer = L.tileLayer(
 );
 
 const mainPinIcon = L.icon({
-  iconUrl: 'img/main-pin.svg',
+  iconUrl: MAIN_PIN_IMAGE,
   iconSize: [MAIN_PIN_ICON_SIZE, MAIN_PIN_ICON_SIZE],
   iconAnchor: [MAIN_PIN_ICON_SIZE / 2, MAIN_PIN_ICON_SIZE],
 });
@@ -45,7 +47,7 @@ const createMainMarker = (coordinate) => {
 };
 
 const generalIcon = L.icon({
-  iconUrl: 'img/pin.svg',
+  iconUrl: GENERAL_PIN_IMAGE,
   iconSize: [GENERAL_PIN_ICON_SIZE, GENERAL_PIN_ICON_SIZE],
   iconAnchor: [GENERAL_PIN_ICON_SIZE / 2, GENERAL_PIN_ICON_SIZE],
 });
