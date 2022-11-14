@@ -33,6 +33,8 @@ const filterAds = (otherAds) => {
 };
 
 const renderSimilarAds = (otherAds) => {
+  closePopup();
+  resetMarkersLayerGroup();
   otherAds
     .slice(0, MAX_SIMILAR_ADS_SHOWN)
     .forEach((ad) => createMarkers(ad));

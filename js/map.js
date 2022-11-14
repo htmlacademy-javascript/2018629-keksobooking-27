@@ -1,9 +1,15 @@
 import { turnFormOn } from './form.js';
 import { createPopup } from './popup.js';
 
-const INIT_LOCATION = {
-  lat: 35.68211,
-  lng: 139.75364,
+const DEFAULT_ZOOM = 12;
+const DIGITS_IN_COORDINATE = 5;
+const MAIN_PIN_ICON_SIZE = 52;
+const MAIN_PIN_IMAGE = 'img/main-pin.svg';
+const GENERAL_PIN_ICON_SIZE = 40;
+const GENERAL_PIN_IMAGE = 'img/pin.svg';
+const InitLocation = {
+  LAT: 35.68211,
+  LNG: 139.75364,
 };
 
 const addressField = document.querySelector('#address');
@@ -19,27 +25,31 @@ const openStreetMapLayer = L.tileLayer(
 );
 
 const mainPinIcon = L.icon({
-  iconUrl: 'img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconUrl: MAIN_PIN_IMAGE,
+  iconSize: [MAIN_PIN_ICON_SIZE, MAIN_PIN_ICON_SIZE],
+  iconAnchor: [MAIN_PIN_ICON_SIZE / 2, MAIN_PIN_ICON_SIZE],
 });
 
 const createMainMarker = (coordinate) => {
   mainMarker
-    .setLatLng(coordinate)
+    .setLatLng(
+      {
+        lat: coordinate.LAT,
+        lng: coordinate.LNG,
+      })
     .setIcon(mainPinIcon)
     .addTo(map);
 
   mainMarker.on('moveend', (evt) => {
     const newAddress = evt.target.getLatLng();
-    addressField.value = `${newAddress.lat.toFixed(5)}, ${newAddress.lng.toFixed(5)}`;
+    addressField.value = `${newAddress.lat.toFixed(DIGITS_IN_COORDINATE)}, ${newAddress.lng.toFixed(DIGITS_IN_COORDINATE)}`;
   });
 };
 
 const generalIcon = L.icon({
-  iconUrl: 'img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconUrl: GENERAL_PIN_IMAGE,
+  iconSize: [GENERAL_PIN_ICON_SIZE, GENERAL_PIN_ICON_SIZE],
+  iconAnchor: [GENERAL_PIN_ICON_SIZE / 2, GENERAL_PIN_ICON_SIZE],
 });
 
 const createMarkers = ({author, offer, location}) => {
@@ -57,7 +67,13 @@ const createMarkers = ({author, offer, location}) => {
 const createMap = (coordinate) => {
   map
     .on('load', turnFormOn)
-    .setView(coordinate, 12);
+    .setView(
+      {
+        lat: coordinate.LAT,
+        lng: coordinate.LNG,
+      },
+      DEFAULT_ZOOM
+    );
 
   openStreetMapLayer.addTo(map);
 
@@ -72,12 +88,20 @@ const resetMarkersLayerGroup = () => markerGroup.clearLayers();
 
 const resetMap = () => {
   map.setView(
-    INIT_LOCATION, 12);
+    {
+      lat: InitLocation.LAT,
+      lng: InitLocation.LNG,
+    },
+    DEFAULT_ZOOM
+  );
   mainMarker.setLatLng(
-    INIT_LOCATION
+    {
+      lat: InitLocation.LAT,
+      lng: InitLocation.LNG,
+    }
   );
   map.closePopup();
   closePopup();
 };
 
-export {INIT_LOCATION, createMarkers, createMap, resetMap, closePopup, resetMarkersLayerGroup};
+export {InitLocation, createMarkers, createMap, resetMap, closePopup, resetMarkersLayerGroup};

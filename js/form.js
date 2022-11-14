@@ -5,6 +5,10 @@ import { createPhotoPreview, resetAvatarUrl, resetPhotoContainer } from './pictu
 import { resetFilters } from './filters.js';
 
 const DEFAULT_AVATAR = 'img/muffin-grey.svg';
+const SLIDER_MIN = 0;
+const SLIDER_MAX = 100000;
+const SLIDER_START = 1000;
+const SLIDER_STEP = 1;
 const form = document.querySelector('.ad-form');
 const resetButton = form.querySelector('.ad-form__reset');
 
@@ -106,11 +110,11 @@ const sliderElement = document.querySelector('.ad-form__slider');
 const createSlider = (slider, price) => {
   noUiSlider.create(slider, {
     range: {
-      min: 0,
-      max: 100000,
+      min: SLIDER_MIN,
+      max: SLIDER_MAX,
     },
-    start: 1000,
-    step: 1,
+    start: SLIDER_START,
+    step: SLIDER_STEP,
     connect: 'lower',
     format: {
       to: (value) => value.toFixed(0),
