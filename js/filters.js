@@ -23,7 +23,7 @@ const resetFilters = () => filters.reset();
 
 // Функции для фильтрации объявлений с помощью фильтров
 
-const getcheckedCheckboxes = (featuresArray) => {
+const getCheckedCheckboxes = (featuresArray) => {
   const checkedCheckboxes = [];
   featuresArray.forEach((item) => {
     if (item.checked) {
@@ -69,7 +69,7 @@ const compareHousingGuests = (guests) => {
 
 const compareHousingFeatures = (features) => {
   const mapFeatures = document.querySelectorAll('[name="features"]');
-  const checkedFeatures = getcheckedCheckboxes(mapFeatures);
+  const checkedFeatures = getCheckedCheckboxes(mapFeatures);
   return checkedFeatures.length === 0 || features && checkedFeatures.every((element) => features.includes(element));
 };
 
