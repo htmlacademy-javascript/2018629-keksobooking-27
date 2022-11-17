@@ -29,20 +29,20 @@ function onPopupEscKeydown (evt) {
 
 const onErrorMessageOpen = (message) => {
   const errorButton = message.querySelector('.error__button');
-  errorButton.addEventListener('click', closeErrorModal);
+  errorButton.addEventListener('click', () => closeErrorModal());
 };
 
 const showErrorMessage = () => {
   errorMessage.classList.remove('hidden');
   onErrorMessageOpen(errorMessage);
   document.addEventListener('keydown', onPopupEscKeydown);
-  errorMessage.addEventListener('click', closeErrorModal);
+  errorMessage.addEventListener('click', () => closeErrorModal());
 };
 
 const showSuccessMessage = () => {
   successMessage.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscKeydown);
-  successMessage.addEventListener('click', closeSuccessModal);
+  successMessage.addEventListener('click', () => closeSuccessModal());
 };
 
 
